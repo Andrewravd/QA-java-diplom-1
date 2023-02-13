@@ -3,7 +3,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import praktikum.Ingredient;
 import praktikum.IngredientType;
-import static org.junit.Assert.*;
+import org.assertj.core.api.SoftAssertions;
 
 
 import static praktikum.IngredientType.FILLING;
@@ -15,6 +15,10 @@ public class IngredientTest {
     public String name;
     public float price;
     public Ingredient ingredient;
+
+    SoftAssertions softAssertions;
+
+
 
     public IngredientTest(IngredientType type, String name, float price) {
         this.type = type;
@@ -30,10 +34,13 @@ public class IngredientTest {
     }
     @Test
     public void testIngredient(){
+        softAssertions = new SoftAssertions();
         ingredient =  new Ingredient(type, name, price);
-        assertEquals(price, ingredient.getPrice(), 0.00);
-        assertEquals(name, ingredient.getName());
-        assertEquals(type, ingredient.getType());
+        softAssertions.assertThat(price).isEqualTo(ingredient.getPrice());
+        softAssertions.assertThat(name).isEqualTo(ingredient.getName());
+        softAssertions.assertThat(type).isEqualTo(ingredient.getType());
+        softAssertions.assertAll();
+
     }
 
 }
